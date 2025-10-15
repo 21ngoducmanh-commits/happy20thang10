@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>20/10</title>
+  <style>
+    body {
+      text-align: center;
+      background-color: #000;
+      color: white;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      overflow: hidden;
+    }
+
+    button {
+      padding: 12px 24px;
+      font-size: 18px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      background-color: #4CAF50;
+      color: white;
+      margin-top: 20px;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    #myImage {
+      display: none;
+      width: 100vw;
+      height: 100vh;
+      object-fit: cover;
+    }
+  </style>
+</head>
+<body>
+
+  <button id="playBtn">Click this button</button>
+
+  <audio id="myAudio" src="music.mp3" preload="auto"></audio>
+
+  <img id="myImage" src="image/image.jpg" alt="Ảnh">
+
+  <script>
+    const audio = document.getElementById("myAudio");
+    const image = document.getElementById("myImage");
+    const button = document.getElementById("playBtn");
+
+    button.addEventListener("click", async function() {
+      try {
+        // Phát nhạc trước (đảm bảo sự kiện user gesture)
+        await audio.play();
+
+        // Sau khi phát được nhạc -> mới hiện ảnh và fullscreen
+        image.style.display = "block";
+        if (image.requestFullscreen) {
+          await image.requestFullscreen();
+        } else if (image.webkitRequestFullscreen) {
+          image.webkitRequestFullscreen(); // cho Safari/iPhone
+        }
+
+        button.style.display = "none";
+      } catch (err) {
+        console.error("Không thể phát nhạc hoặc fullscreen:", err);
+        alert("Trình duyệt không cho phép phát nhạc tự động. Hãy thử lại.");
+      }
+    });
+  </script>
+</body>
+</html>
